@@ -1,6 +1,4 @@
-# Custom OpenProject installation with Docker Compose
-
-## Install
+# Custom OpenProject installation with Docker
 
 Clone this repository:
 
@@ -10,19 +8,23 @@ Go to the project folder:
 
     cd custom-openproject
 
-Make sure you are using the latest version of the Docker images:
+To create the local directories where the data will be stored across container restarts, and start the container with those directories mounted:
 
-    docker-compose pull
+    sudo mkdir -p /var/lib/custom-openproject/{pgdata,assets} 
 
-Launch the containers:
-
-    docker-compose up -d
+    docker run -p 8080:80 --name custom-openproject \
+     -e SERVER_HOSTNAME=customopenproject.example.com \ # The public facing host name
+     -e SECRET_KEY_BASE=secret \ # The secret key base used for cookies
+     -v /var/lib/custom-openproject/pgdata:/var/openproject/pgdata \
+     -v /var/lib/custom-openproject/assets:/var/openproject/assets \
+     denisadamchik/custom-openproject
 
 After a while, Custom OpenProject should be up and running on <http://localhost:8080>.
 
-## Uninstall
+You can now stop the container by running:
 
-You can remove the stack with:
+    docker stop custom-openproject
 
-    docker-compose down
+And start it again:
 
+    docker start custom-openproject
