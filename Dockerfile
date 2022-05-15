@@ -6,6 +6,7 @@ FROM openproject/community:12
 # COPY /path/to/my/local/openproject-slack /app/vendor/plugins/openproject-slack
 
 COPY Gemfile.plugins /app/
+COPY app/views/wiki/_menu_pages_tree.html.erb /app/app/views/wiki/
 
 # If the plugin uses any external NPM dependencies you have to install them here.
 # RUN npm add npm <package-name>*
